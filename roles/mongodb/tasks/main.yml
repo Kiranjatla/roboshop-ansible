@@ -34,3 +34,13 @@
     src: https://github.com/roboshop-devops-project/mongodb/archive/main.zip
     dest: /tmp
     remote_src: yes
+
+- name: Load Catalogue Schema
+  community.mongodb.mongodb_shell:
+    file: "/tmp/mongodb-main/catalogue.js"
+    idempotent: yes
+
+- name: Load users Schema
+  community.mongodb.mongodb_shell:
+    file: "/tmp/mongodb-main/users.js"
+    idempotent: yes
