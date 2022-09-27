@@ -8,11 +8,6 @@
     state: started
     name: nginx
 
-#  echo Extracting Web Content
-#  unzip /tmp/frontend.zip &>>$LOG_FILE
-#  statuscheck $?
-#
-#  mv frontend-main/static/* . &>>$LOG_FILE
 #  mv frontend-main/localhost.conf /etc/nginx/default.d/roboshop.conf &>>$LOG_FILE
 #  statuscheck $?
 #
@@ -41,3 +36,9 @@
     src: /tmp/frontend-main/static/
     dest: /usr/share/nginx/html/
     remote_src: yes
+
+- name: copy RoboShop nginx config file
+  ansible.builtin.copy:
+    src: roboshop.conf
+    dest: /etc/nginx/default.d/roboshop.conf
+
