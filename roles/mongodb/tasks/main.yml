@@ -10,7 +10,7 @@
 - name: Setup MongoDB Repo
   ansible.builtin.copy:
     src: mongo.repo
-    dest: /etc/yum.repos.d/mongo.repo
+    dest: /etc/yum.repos.d/mongodb.repo
 
 - name: install MongoDB package
   ansible.builtin.yum:
@@ -25,7 +25,7 @@
 
 - name: Start MongoDB Service
   ansible.builtin.systemd:
-    name: Mongod
+    name: mongod
     state: restarted
     enabled: yes
 
