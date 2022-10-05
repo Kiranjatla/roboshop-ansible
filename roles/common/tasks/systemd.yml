@@ -1,0 +1,27 @@
+#echo "Update SystemD service file"
+#sed -i -e 's/REDIS_ENDPOINT/redis.roboshop.internal/' -e 's/MONGO_ENDPOINT/mongodb.roboshop.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/' -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' -e 's/CARTENDPOINT/cart.roboshop.internal/' -e 's/DBHOST/mysql.roboshop.internal/' -e 's/CARTHOST/cart.roboshop.internal/' -e 's/USERHOST/user.roboshop.internal/' -e 's/AMQPHOST/rabbitmq.roboshop.internal/' /home/roboshop/${COMPONENT}/systemd.service
+#statuscheck $?
+#
+#
+#echo "Setup ${COMPONENT} service"
+#mv /home/roboshop/${COMPONENT}/systemd.service /etc/systemd/system/${COMPONENT}.service &>>${LOG_FILE}
+#statuscheck $?
+#systemctl daemon-reload &>>${LOG_FILE}
+#systemctl enable ${COMPONENT} &>>${LOG_FILE}
+#
+#echo "Start ${COMPONENT} service"
+#systemctl start ${COMPONENT} &>>${LOG_FILE}
+#statuscheck $?
+
+- name: copy systemD service file
+  ansible.builtin.copy:
+    src: "{{COMPONENT}}.service"
+    dest: /etc/systemd/system/{{COMPONENT}}.service
+
+- name: Start {{COMPONENT}} Service
+  ansible.builtin.systemd:
+    name: {{COMPONENT}}
+    state: restarted
+    enabled: yes
+    daemon-reload: yes
+
