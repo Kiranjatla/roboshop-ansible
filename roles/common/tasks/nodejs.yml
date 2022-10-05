@@ -13,6 +13,7 @@
 #statuscheck $?
 #
 ##SYSTEMD_SETUP
+
 - name: Setup NodeJS repos
   ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
 
@@ -29,6 +30,6 @@
     path: /home/roboshop/{{COMPONENT}}
   become_user: roboshop
 
-#- name: Import SystemD tasks
-#  ansible.builtin.import_tasks: systemd.yml
+- name: Import SystemD tasks
+  ansible.builtin.import_tasks: systemd.yml
 
