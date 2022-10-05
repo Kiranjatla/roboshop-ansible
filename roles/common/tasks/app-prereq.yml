@@ -1,0 +1,41 @@
+#id roboshop &>>${LOG_FILE}
+#if [ $? -ne 0 ]; then
+#echo "Add Roboshop application user"
+#useradd roboshop &>>${LOG_FILE}
+#statuscheck $?
+#fi
+#
+#echo "Download ${COMPONENT} application code"
+#curl -s -L -o /tmp/${COMPONENT}.zip "https://github.com/roboshop-devops-project/${COMPONENT}/archive/main.zip" &>>${LOG_FILE}
+#statuscheck $?
+#
+#echo "Clean old ${COMPONENT} app content"
+#cd /home/roboshop && rm -rf ${COMPONENT} &>>${LOG_FILE}
+#statuscheck $?
+#
+#echo "Extracting ${COMPONENT} application code"
+#unzip /tmp/${COMPONENT}.zip &>>${LOG_FILE}
+#statuscheck $?
+#
+#mv ${COMPONENT}-main ${COMPONENT} && cd /home/roboshop/${COMPONENT}
+
+- name: Add Roboshop application user
+  ansible.builtin.user:
+    name: roboshop
+
+- name: Clean Up Old App Content
+  ansible.builtin.file:
+    path: /home/roboshop/{{COMPONENT}}
+    state: absent
+
+- name: Downloading application content & Extract It
+  ansible.builtin.unarchive:
+    src: https://github.com/roboshop-devops-project/{{COMPONENT}}/archive/main.zip
+    dest: /tmp
+    remote_src: yes
+
+- name: Copy Extracted App Content
+  ansible.builtin.copy:
+    src: /tmp/catalogue-main/
+    dest: /home/roboshop/{{COMPONENT}}/
+    remote_src: yes
