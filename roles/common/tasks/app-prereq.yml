@@ -22,7 +22,7 @@
 - name: Add RoboShop Application User
   ansible.builtin.user:
     name: roboshop
-  register: appuser
+
 
 - name: Clean UP old App Content
   ansible.builtin.file:
@@ -37,7 +37,7 @@
 
 - name: Copy Extracted App Content
   ansible.builtin.copy:
-    src: /tmp/{{COMPONENT}}-main/
+    src: /tmp/catalogue-main/
     dest: /home/roboshop/{{COMPONENT}}/
     remote_src: yes
   become_user: roboshop
