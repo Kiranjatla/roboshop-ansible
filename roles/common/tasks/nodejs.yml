@@ -15,19 +15,20 @@
 ##SYSTEMD_SETUP
 - name: Setup NodeJS repos
   ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+
 - name: Install NodeJS
   ansible.builtin.yum:
     name: nodejs
     state: installed
 
-- name: Import App Pre-req Task File
+- name: Import App Pre-Req Task file
   ansible.builtin.import_tasks: app-prereq.yml
 
-- name: install NodeJS Dependencies
+- name: Install NodeJS Dependencies
   community.general.npm:
     path: /home/roboshop/{{COMPONENT}}
   become_user: roboshop
 
-- name: Import systemd Task File
+- name: Import SystemD tasks
   ansible.builtin.import_tasks: systemd.yml
 

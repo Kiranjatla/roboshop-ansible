@@ -1,4 +1,4 @@
-- name: Install the latest version of nginx
+- name: Install Nginx
   ansible.builtin.yum:
     name: nginx
     state: installed
@@ -8,7 +8,7 @@
     path: /usr/share/nginx/html
     state: absent
 
-- name: Download nginx webcontent & Extract It
+- name: Downloading Nginx Web Content & Extract it
   ansible.builtin.unarchive:
     src: https://github.com/roboshop-devops-project/frontend/archive/main.zip
     dest: /tmp
@@ -20,14 +20,15 @@
     dest: /usr/share/nginx/html/
     remote_src: yes
 
-- name: copy RoboShop nginx config file
+- name: Copy RoboShop Nginx Config file
   ansible.builtin.copy:
     src: roboshop.conf
     dest: /etc/nginx/default.d/roboshop.conf
+  notify: Restart Nginx Service
 
-- name: Make sure nginx is running
+- name: Start Nginx Service
   ansible.builtin.systemd:
-    state: restarted
+    state: started
     name: nginx
     enabled: yes
 
