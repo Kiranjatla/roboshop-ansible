@@ -80,4 +80,4 @@
 
 - name: Print Out
   debug:
-    msg: "{{out}}"
+    msg: "{{out | b64decode}}"
