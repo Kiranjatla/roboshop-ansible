@@ -120,3 +120,4 @@
     login_user: root
     login_password: "{{ROBOSHOP_MYSQL_PASSWORD}}"
   when: plugins_status | regex_findall('validate_password') | length > 0
+
