@@ -28,10 +28,10 @@
 
 
 - name: Load Schema
-  ansible.builtin.shell:
-    cmd: mongo --host localhost < {{item}}.js
-    chdir: /tmp/mongodb-main/
-    loop:
+  ansible.builtin.shell: mongo --host localhost < {{item}}.js
+  args:
+     chdir: /tmp/mongodb-main/
+  loop:
       - catalogue
       - users
 
