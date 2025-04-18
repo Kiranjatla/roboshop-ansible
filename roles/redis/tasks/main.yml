@@ -1,7 +1,6 @@
 - name: disabling Redis YUM Modules
-  ansible.builtin.dnf:
-    name: dnf module disable redis -y
-    state: absent
+  ansible.builtin.shell:
+    cmd: dnf module disable redis -y
 
 - name: Configure Redis YUM repos
   ansible.builtin.dnf:
