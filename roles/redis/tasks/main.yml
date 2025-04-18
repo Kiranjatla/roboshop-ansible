@@ -4,9 +4,10 @@
 
 - name: Configure Redis YUM repos
   ansible.builtin.dnf:
-    name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
-    state: installed
+    name: "https://rpms.remirepo.net/enterprise/remi-release-8.rpm"
+    state: present
     disable_gpg_check: yes
+  become: yes
 
 - name: Configure Redis 6.2
   ansible.builtin.shell: dnf module enable redis:6 -y
