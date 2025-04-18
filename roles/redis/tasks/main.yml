@@ -5,7 +5,7 @@
 - name: Configure Redis YUM repos
   ansible.builtin.dnf:
     name: "https://rpms.remirepo.net/enterprise/remi-release-8.rpm"
-    state: present
+    state: latest
     disable_gpg_check: yes
   become: yes
 
