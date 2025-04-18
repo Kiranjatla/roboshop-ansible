@@ -3,11 +3,19 @@
     cmd: dnf module disable redis -y
 
 - name: Configure Redis YUM repos
-  ansible.builtin.dnf:
-    name: "https://rpms.remirepo.net/enterprise/remi-release-8.rpm"
-    state: latest
-    disable_gpg_check: yes
+  hosts: all
   become: yes
+  tasks:
+    - name: Ensure redhat-release is updated to at least version 8.10
+      ansible.builtin.dnf:
+        name: redhat-release
+        state: latest
+
+    - name: Install Remi repository RPM
+      ansible.builtin.dnf:
+        name: "https://rpms.remirepo.net/enterprise/remi-release-8.rpm"
+        state: present
+        disable_gpg_check: yes
 
 - name: Configure Redis 6.2
   ansible.builtin.shell: dnf module enable redis:6 -y
