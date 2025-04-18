@@ -26,10 +26,19 @@
     dest: /tmp
     remote_src: yes
 
+
 - name: Load Schema
-  community.mongodb.mongodb_shell:
-    file: "/tmp/mongodb-main/{{item}}.js"
-    idempotent: yes
-  loop:
-    - catalogue
-    - users
+  ansible.builtin.shell:
+    cmd: mongo --host localhost < {{item}}.js
+    chdir: /tmp/mongodb-main/
+    loop:
+      - catalogue
+      - users
+
+#- name: Load Schema
+#  community.mongodb.mongodb_shell:
+#    file: "/tmp/mongodb-main/{{item}}.js"
+#    idempotent: yes
+#  loop:
+#    - catalogue
+#    - users
