@@ -30,12 +30,15 @@
 - name: Install Erlang & RabbitMQ
   ansible.builtin.yum:
     name: "{{item}}"
-    state: installed
+    state: present
     disable_gpg_check: yes
   loop:
-    - install erlang -y
-    - https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash
-    - install rabbitmq-server -y
+    - erlang
+    - rabbitmq-server
+
+- name: Setup RabbitMQ repos
+  ansible.builtin.shell: curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash
+
 
 #- name: Install Erlang & RabbitMQ
 #  ansible.builtin.yum:
