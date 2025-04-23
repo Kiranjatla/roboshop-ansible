@@ -1,10 +1,10 @@
-- name: copy prometheus configuration
+- name: Copy Prometheus Configuration
   ansible.builtin.template:
     src: "{{item}}"
-    dest: /opt/prometheus/"{{item}}"
+    dest: /opt/prometheus/{{item}}
   loop:
-      - prometheus.yml
-      - record-rules.yml
+    - prometheus.yml
+    - record-rules.yml
 
 - name: Restart Prometheus
   ansible.builtin.systemd:
