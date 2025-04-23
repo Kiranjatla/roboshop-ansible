@@ -2,7 +2,7 @@
   ansible.builtin.template:
     src: "{{item}}"
     dest: /opt/prometheus/"{{item}}"
-    loop:
+  loop:
       - prometheus.yml
       - record-rules.yml
 
