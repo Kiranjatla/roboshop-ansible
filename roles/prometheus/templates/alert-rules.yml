@@ -19,3 +19,21 @@ groups:
           {% raw %}summary: "High Memory Usage - [{{ $labels.Name }}]"{% endraw %}
 
           {% raw %}description: "High Memory Usage - [{{ $labels.Name }}]\n Private IP Address = [{{ $labels.Name }}]"{% endraw %}
+
+      - alert: CPU High USage
+        expr: avg by (instance) (100- (rate(node_cpu_seconds_total{mode="idle"}[1m]) * 100)) > 80
+        labels:
+          severity: critical
+        annotations:
+          { % raw % }summary: "CPU High USage - [{{ $labels.Name }}]"{ % endraw % }
+
+          { % raw % }description: "CPU High USage - [{{ $labels.Name }}]\n Private IP Address = [{{ $labels.Name }}]"{ % endraw % }
+
+      - alert: Service Down
+        expr: node_systemd_unit_state(name="{{component}}.service",state="active") < 1
+        labels:
+          severity: critical
+        annotations:
+         summary: "{{component}} Service down -{ % raw % } [{{ $labels.Name }}]"{ % endraw % }
+
+          { % raw % }description: "{{component}} Service down -{ % raw % } [{{ $labels.Name }}]\n Private IP Address = [{{ $labels.Name }}]"{ % endraw % }
