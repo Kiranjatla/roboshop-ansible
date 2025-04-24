@@ -12,7 +12,7 @@
     name: prometheus
     state: restarted
 
-- name: Wait For prometheus service to start
+- name: Wait for Prometheus Service to Start
   ansible.builtin.wait_for:
     host: 0.0.0.0
     port: 9090
@@ -24,12 +24,12 @@
     src: alertmanager.yml
     dest: /opt/alertmanager/alertmanager.yml
 
-- name: Restart alert manager
+- name: Restart Alert Manager
   ansible.builtin.systemd:
     name: alertmanager
     state: restarted
 
-- name: Wait For alertmanager service to start
+- name: Wait for alertmanager Service to Start
   ansible.builtin.wait_for:
     host: 0.0.0.0
     port: 9093
