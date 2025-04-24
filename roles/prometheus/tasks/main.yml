@@ -19,7 +19,7 @@
     delay: 10
     timeout: 30
 
-- name: Copy Prometheus Configuration
+- name: Copy Alert Manager Configuration
   ansible.builtin.template:
     src: alertmanager.yml
     dest: /opt/alertmanager/alertmanager.yml
