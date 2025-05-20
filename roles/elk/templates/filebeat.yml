@@ -5,7 +5,7 @@ filebeat.inputs:
       - {{FILEBEAT_INPUT_LOG_FILE}}
 
 output.logstash:
-  hosts: ["localhost:5044"]
+  hosts: ["logstash.roboshop.internal:5044"]
 
 
 # Default Configs
