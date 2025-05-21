@@ -1,59 +1,59 @@
-- name: Copy Elastic YUM Repo file
-  ansible.builtin.template:
-    src: elastic.repo
-    dest: /etc/yum.repos.d/elastic.repo
+- name: Install and Configure ELK Stack
+  hosts: all
+  become: yes
+  tasks:
 
-- name: Install Filebeat
-  ansible.builtin.yum:
-    name: filebeat
-    state: installed
+    - name: Copy Elastic YUM Repo file
+      ansible.builtin.template:
+        src: elastic.repo
+        dest: /etc/yum.repos.d/elastic.repo
 
-- name: Copy Filebeat Configuration
-  ansible.builtin.template:
-    src: filebeat.yml
-    dest: /etc/filebeat/filebeat.yml
+    - name: Install Filebeat
+      ansible.builtin.dnf:
+        name: filebeat
+        state: installed
 
-- name: Restart Filebeat Service
-  ansible.builtin.systemd:
-    name: filebeat
-    state: restarted
-    enabled: yes
+    - name: Copy Filebeat Configuration
+      ansible.builtin.template:
+        src: filebeat.yml
+        dest: /etc/filebeat/filebeat.yml
 
-- name: Copy elastic repo
-  ansible.builtin.template:
-    src: elastic.repo
-    dest: /etc/yum.repos.d/elastic.repo
+    - name: Enable and Start Filebeat Service
+      ansible.builtin.systemd:
+        name: filebeat
+        enabled: yes
+        state: restarted
 
-- name: Install Elasticsearch
-  ansible.builtin.dnf:
-    name: elasticsearch
-    state: installed
+    - name: Install Elasticsearch
+      ansible.builtin.dnf:
+        name: elasticsearch
+        state: installed
 
-- name: Start Elasticsearch
-  ansible.builtin.systemd_service:
-    name: elasticsearch
-    state: started
-    enabled: yes
+    - name: Enable and Start Elasticsearch
+      ansible.builtin.systemd:
+        name: elasticsearch
+        enabled: yes
+        state: started
 
-- name: Install Kibana
-  ansible.builtin.dnf:
-    name: kibana
-    state: installed
+    - name: Install Kibana
+      ansible.builtin.dnf:
+        name: kibana
+        state: installed
 
-- name: Update Kibana Config Port line
-  ansible.builtin.lineinfile:
-    path: /etc/kibana/kibana.yml
-    regexp: '^#server.port: 5601'
-    line: "server.port: 5601"
+    - name: Update Kibana Config Port line
+      ansible.builtin.lineinfile:
+        path: /etc/kibana/kibana.yml
+        regexp: '^#server.port: 5601'
+        line: 'server.port: 5601'
 
-- name: Update Kibana Config IP line
-  ansible.builtin.lineinfile:
-    path: /etc/kibana/kibana.yml
-    regexp: '^#server.host: localhost'
-    line: "server.host: 0.0.0.0"
+    - name: Update Kibana Config IP line
+      ansible.builtin.lineinfile:
+        path: /etc/kibana/kibana.yml
+        regexp: '^#server.host: localhost'
+        line: 'server.host: 0.0.0.0'
 
-- name: Start Kibana
-  ansible.builtin.systemd_service:
-    name: kibana
-    state: restarted
-    enabled: yes
+    - name: Enable and Restart Kibana
+      ansible.builtin.systemd:
+        name: kibana
+        enabled: yes
+        state: restarted
