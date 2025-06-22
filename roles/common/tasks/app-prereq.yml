@@ -3,11 +3,12 @@
     name: roboshop
   register: appuser
 
+#Commented because using below
+#- name: Clean UP old App Content
+#  ansible.builtin.file:
+#    path: /home/roboshop/{{COMPONENT}}
+#    state: absent
 
-- name: Clean UP old App Content
-  ansible.builtin.file:
-    path: /home/roboshop/{{COMPONENT}}
-    state: absent
 ## Commented this to move towards standard process of downloading the content from artifact manager rather than downloading from git repo
 #- name: Downloading Application Content
 #  ansible.builtin.unarchive:
@@ -28,6 +29,11 @@
     dest: /home/roboshop/{{COMPONENT}}-tmp
     remote_src: yes
   become_user: roboshop
+
+- name: Clean UP old App Content
+  ansible.builtin.file:
+    path: /home/roboshop/{{COMPONENT}}
+    state: absent
 
 ## Commented this to move towards standard process of downloading the content from artifact manager rather than downloading from git repo
 #- name: Copy Extracted App Content
