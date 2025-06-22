@@ -3,9 +3,16 @@
     name: roboshop
   register: appuser
 
-- name: Clean UP old App Content
+# 1. Clean up old app content
+- name: Remove old app content
   ansible.builtin.file:
     path: /home/roboshop/{{COMPONENT}}
+    state: absent
+
+# 2. Clean up any existing temp folder
+- name: Remove existing temp folder if it exists
+  ansible.builtin.file:
+    path: /home/roboshop/{{COMPONENT}}-tmp
     state: absent
 
 - name: Create Temp Directory
@@ -25,7 +32,6 @@
 
 - name: Rename tmp folder to actual app folder
   ansible.builtin.command: mv /home/roboshop/{{COMPONENT}}-tmp /home/roboshop/{{COMPONENT}}
-
 
 
 
