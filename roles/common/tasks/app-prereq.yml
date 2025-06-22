@@ -22,16 +22,25 @@
     owner: roboshop
     group: roboshop
 
-- name: Download and Extract Application Content
+- name: Download and Extract ZIP (no extra_opts)
   ansible.builtin.unarchive:
     src: http://{{NEXUS_USER}}:{{NEXUS_PASS}}@nexus.roboshop.internal:8081/repository/{{COMPONENT}}/{{COMPONENT}}-{{APP_VERSION}}.zip
     dest: /home/roboshop/{{COMPONENT}}-tmp
     remote_src: yes
-    extra_opts: [--strip-components=1]
   become_user: roboshop
 
-- name: Rename tmp folder to actual app folder
-  ansible.builtin.command: mv /home/roboshop/{{COMPONENT}}-tmp /home/roboshop/{{COMPONENT}}
+# OPTIONAL: list extracted folder
+- name: List extracted directory to find nested folder
+  ansible.builtin.shell: ls -1 /home/roboshop/{{COMPONENT}}-tmp
+  register: extracted_dir
+
+- name: Move extracted content to final location
+  ansible.builtin.command: >
+    mv /home/roboshop/{{COMPONENT}}-tmp/{{ extracted_dir.stdout_lines[0] }} /home/roboshop/{{COMPONENT}}
+
+
+#- name: Rename tmp folder to actual app folder
+#  ansible.builtin.command: mv /home/roboshop/{{COMPONENT}}-tmp /home/roboshop/{{COMPONENT}}
 
 
 
