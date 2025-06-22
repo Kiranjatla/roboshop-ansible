@@ -3,56 +3,10 @@
     name: roboshop
   register: appuser
 
-- name: Clean old app content
+- name: Clean UP old App Content
   ansible.builtin.file:
-    path: /home/roboshop/{{ COMPONENT }}
+    path: /home/roboshop/{{COMPONENT}}
     state: absent
-
-- name: Remove temp folder if exists
-  ansible.builtin.file:
-    path: /home/roboshop/{{ COMPONENT }}-tmp
-    state: absent
-
-- name: Create temp folder
-  ansible.builtin.file:
-    path: /home/roboshop/{{ COMPONENT }}-tmp
-    state: directory
-    owner: roboshop
-    group: roboshop
-
-- name: Download and unzip app content
-  ansible.builtin.unarchive:
-    src: http://{{ NEXUS_USER }}:{{ NEXUS_PASS }}@nexus.roboshop.internal:8081/repository/{{ COMPONENT }}/{{ COMPONENT }}-{{ APP_VERSION }}.zip
-    dest: /home/roboshop/{{ COMPONENT }}-tmp
-    remote_src: yes
-  become_user: roboshop
-
-- name: Find the inner directory inside tmp
-  ansible.builtin.find:
-    paths: /home/roboshop/{{ COMPONENT }}-tmp
-    file_type: directory
-    recurse: no
-  register: inner_folder
-
-- name: Move extracted content to final path
-  ansible.builtin.command: mv {{ inner_folder.files[0].path }} /home/roboshop/{{ COMPONENT }}
-
-- name: Verify package.json exists
-  ansible.builtin.stat:
-    path: /home/roboshop/{{ COMPONENT }}/package.json
-  register: pkg_json
-
-- name: Fail if package.json is missing
-  ansible.builtin.fail:
-    msg: "package.json is missing in /home/roboshop/{{ COMPONENT }}!"
-  when: not pkg_json.stat.exists
-
-
-
-#- name: Rename tmp folder to actual app folder
-#  ansible.builtin.command: mv /home/roboshop/{{COMPONENT}}-tmp /home/roboshop/{{COMPONENT}}
-
-
 
 ## Commented this to move towards standard process of downloading the content from artifact manager rather than downloading from git repo
 #- name: Downloading Application Content
@@ -60,6 +14,20 @@
 #    src: https://github.com/roboshop-devops-project/{{COMPONENT}}/archive/main.zip
 #    dest: /tmp
 #    remote_src: yes
+
+- name: Create Application Directory
+  ansible.builtin.file:
+    path: /home/roboshop/{{COMPONENT}}-tmp
+    state: directory
+    owner: roboshop
+    group: roboshop
+
+- name: Downloading Application Content
+  ansible.builtin.unarchive:
+    src: http://{{NEXUS_USER}}:{{NEXUS_PASS}}@nexus.roboshop.internal:8081/repository/{{COMPONENT}}/{{COMPONENT}}-{{APP_VERSION}}.zip
+    dest: /home/roboshop/{{COMPONENT}}-tmp
+    remote_src: yes
+  become_user: roboshop
 
 
 ## Commented this to move towards standard process of downloading the content from artifact manager rather than downloading from git repo
