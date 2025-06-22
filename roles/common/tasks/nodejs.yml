@@ -9,16 +9,6 @@
 - name: Import App Pre-Req Task file
   ansible.builtin.import_tasks: app-prereq.yml
 
-- name: Check if package.json exists
-  ansible.builtin.stat:
-    path: /home/roboshop/{{COMPONENT}}/package.json
-  register: pkg_json
-
-- name: Fail if package.json is missing
-  ansible.builtin.fail:
-    msg: "package.json is missing in /home/roboshop/{{COMPONENT}}!"
-  when: not pkg_json.stat.exists
-
 - name: Install NodeJS Dependencies
   community.general.npm:
     path: /home/roboshop/{{COMPONENT}}
