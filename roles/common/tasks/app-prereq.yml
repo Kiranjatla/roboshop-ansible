@@ -24,8 +24,6 @@
     owner: roboshop
     group: roboshop
 
-#- name: Rename
-#  command: mv /home/roboshop/{{COMPONENT}}/package-lock.json /home/roboshop/{{COMPONENT}}/package.json
 
 - name: Downloading Application Content
   ansible.builtin.unarchive:
@@ -33,6 +31,11 @@
     dest: /home/roboshop/{{COMPONENT}}-tmp
     remote_src: yes
   become_user: roboshop
+
+- name: Rename
+  command: mv /home/roboshop/{{COMPONENT}}/package-lock.json /home/roboshop/{{COMPONENT}}/package.json
+
+
 
 
 ## Commented this to move towards standard process of downloading the content from artifact manager rather than downloading from git repo
