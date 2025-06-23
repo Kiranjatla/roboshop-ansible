@@ -16,7 +16,7 @@
 #    remote_src: yes
 
 - name: Rename
-  command: mv /home/roboshop/{COMPONENT}/package-lock.json /home/roboshop/{COMPONENT}/package.json
+  command: mv /home/roboshop/{{COMPONENT}}/package-lock.json /home/roboshop/{{COMPONENT}}/package.json
 
 
 - name: Create Application Directory
