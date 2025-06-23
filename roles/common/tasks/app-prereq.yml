@@ -3,10 +3,10 @@
     name: roboshop
   register: appuser
 
-- name: Clean UP old App Content
-  ansible.builtin.file:
-    path: /home/roboshop/{{COMPONENT}}
-    state: absent
+#- name: Clean UP old App Content
+#  ansible.builtin.file:
+#    path: /home/roboshop/{{COMPONENT}}
+#    state: absent
 
 ## Commented this to move towards standard process of downloading the content from artifact manager rather than downloading from git repo
 #- name: Downloading Application Content
