@@ -32,8 +32,8 @@
     remote_src: yes
   become_user: roboshop
 
-- name: Rename
-  command: mv /home/roboshop/{{COMPONENT}}/package-lock.json /home/roboshop/{{COMPONENT}}/package.json
+- name: Rename Dir
+  ansible.builtin.shell: mv /home/roboshop/{{COMPONENT}}-tmp /home/roboshop/{{COMPONENT}}
 
 
 
