@@ -15,8 +15,6 @@
 #    dest: /tmp
 #    remote_src: yes
 
-- name: Rename
-  command: mv /home/roboshop/{{COMPONENT}}/package-lock.json /home/roboshop/{{COMPONENT}}/package.json
 
 
 - name: Create Application Directory
@@ -25,6 +23,9 @@
     state: directory
     owner: roboshop
     group: roboshop
+
+- name: Rename
+  command: mv /home/roboshop/{{COMPONENT}}/package-lock.json /home/roboshop/{{COMPONENT}}/package.json
 
 - name: Downloading Application Content
   ansible.builtin.unarchive:
