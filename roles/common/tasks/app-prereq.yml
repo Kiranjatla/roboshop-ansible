@@ -40,7 +40,7 @@
 
 
 
-## Commented this to move towards standard process of downloading the content from artifact manager rather than downloading from git repo
+## Commented this code to move towards standard process of downloading the content from artifact manager rather than downloading from git repo
 #- name: Copy Extracted App Content
 #  ansible.builtin.copy:
 #    src: /tmp/{{COMPONENT}}-main/
